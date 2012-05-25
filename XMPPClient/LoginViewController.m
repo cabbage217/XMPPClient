@@ -12,20 +12,23 @@
 
 NSString *const kXMPPmyJID = @"kXMPPmyJID";
 NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
+NSString *const kRemenberPassword = @"kRemenberPassword";
 
 @interface LoginViewController()
 
-- (void)setField: (UITextField *)field forKey: (NSString *)key;
+- (void)setField: (id)obj forKey: (NSString *)key;
 
 @end
 
 @implementation LoginViewController
 
-@synthesize jidField;
-@synthesize passwordField;
-@synthesize indicatorView;
-@synthesize loginButton;
-@synthesize logining;
+@synthesize jidField = _jidField;
+@synthesize passwordField = _passwordField;
+@synthesize switcher = _switcher;
+@synthesize indicatorView = _indicatorView;
+@synthesize loginButton = _loginButton;
+@synthesize cancelButton = _cancelButton;
+@synthesize logining = _logining;
 
 
 - (void)didReceiveMemoryWarning
@@ -34,10 +37,6 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
-}
-
-- (void)awakeFromNib {
-    self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 }
 
 #pragma mark - View lifecycle
@@ -55,8 +54,19 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 {
     [super viewWillAppear:animated];
     
-    jidField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
-    passwordField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
+    _jidField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] stringForKey: kRemenberPassword]);
+    if ([[[NSUserDefaults standardUserDefaults] stringForKey: kRemenberPassword] isEqualToString: @"YES"])
+    {
+        _passwordField.text = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
+        _switcher.on = YES;
+    }
+    else
+    {
+        _passwordField.text = @"";
+        _switcher.on = NO;
+    }
+    
 }
 
 - (void)viewDidUnload
@@ -72,33 +82,67 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 	return YES;
 }
 
-- (void)setField:(UITextField *)field forKey:(NSString *)key
+- (void)setField: (id)obj forKey: (NSString *)key
 {
-    if (field.text != nil) 
+    if ([obj isKindOfClass: [UITextField class]])
     {
-        [[NSUserDefaults standardUserDefaults] setObject:field.text forKey:key];
-    } else {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+        UITextField *field = (UITextField *)obj;
+        if (field.text != nil) 
+        {
+            [[NSUserDefaults standardUserDefaults] setObject:field.text forKey: key];
+        }
+        else
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey: key];
+        }
     }
+    else
+        if ([obj isKindOfClass: [UISwitch class]])
+        {
+            UISwitch *switcherTemp = (UISwitch *)obj;
+            if (switcherTemp.on)
+            {
+                [[NSUserDefaults standardUserDefaults] setObject: @"YES" forKey: key];
+            }
+            else
+            {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey: key];
+            }
+        }
+    
 }
 
 -(void)showLogin:(BOOL)show
 {
     if (show)
     {
-        [self.indicatorView stopAnimating];
-        self.jidField.alpha = 1;
-        self.passwordField.alpha = 1;
-        self.loginButton.selected = NO;
-        self.logining = NO;
+        [_indicatorView stopAnimating];
+        _jidField.enabled = YES;
+        _jidField.alpha = 1;
+        _passwordField.enabled = YES;
+        _passwordField.alpha = 1;
+        _switcher.enabled = YES;
+        _switcher.alpha = 1;
+        _loginButton.enabled = YES;
+        _loginButton.alpha = 1;
+        _cancelButton.enabled = NO;
+        _cancelButton.alpha = 0.5;
+        _logining = NO;
     }
     else
     {
-        [self.indicatorView startAnimating];
-        self.jidField.alpha = 0.5;
-        self.passwordField.alpha = 0.5;
-        self.loginButton.selected = YES;
-        self.logining = YES;
+        [_indicatorView startAnimating];
+        _jidField.enabled = NO;
+        _jidField.alpha = 0.5;
+        _passwordField.enabled = NO;
+        _passwordField.alpha = 0.5;
+        _switcher.enabled = NO;
+        _switcher.alpha = 0.5;
+        _loginButton.enabled = NO;
+        _loginButton.alpha = 0.5;
+        _cancelButton.enabled = YES;
+        _cancelButton.alpha = 1;
+        _logining = YES;
     }
 }
 
@@ -113,14 +157,14 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 
 - (IBAction)login:(id)sender
 {
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if (self.logining)
-    {
-        [appDelegate disconnect];
-        [self showLogin: YES];
-        return;
-    }
+//    if (self.logining)
+//    {
+//        [appDelegate disconnect];
+//        [self showLogin: YES];
+//        return;
+//    }
     
     if ((0 == self.jidField.text.length) || (0 == self.passwordField.text.length))
     {
@@ -136,13 +180,21 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
     
     [self showLogin: NO];
         
-    [self setField: jidField forKey: kXMPPmyJID];
-    [self setField: passwordField forKey:kXMPPmyPassword];
+    [self setField: _jidField forKey: kXMPPmyJID];
+    [self setField: _passwordField forKey: kXMPPmyPassword];
+    [self setField: _switcher forKey: kRemenberPassword];
     
-    [self dismissModalViewControllerAnimated:YES];
+//    [self dismissModalViewControllerAnimated:YES];
     
-    [appDelegate connect];
+//    [appDelegate connect];
     
+}
+
+- (IBAction)cancel:(id)sender
+{
+//    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    [appDelegate disconnect];
+    [self showLogin: YES];
 }
 
 - (IBAction)hideKeyboard:(id)sender

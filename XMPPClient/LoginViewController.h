@@ -13,13 +13,16 @@ extern NSString *const kXMPPmyPassword;
 
 @interface LoginViewController : UIViewController
 
-@property (weak) IBOutlet UITextField *jidField;
-@property (weak) IBOutlet UITextField *passwordField;
-@property (weak) IBOutlet UIActivityIndicatorView *indicatorView;
-@property (weak) IBOutlet UIButton *loginButton;
+@property (nonatomic, weak) IBOutlet UITextField *jidField;
+@property (nonatomic, weak) IBOutlet UITextField *passwordField;
+@property (nonatomic, weak) IBOutlet UISwitch *switcher;
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicatorView;
+@property (nonatomic, weak) IBOutlet UIButton *loginButton;
+@property (nonatomic, weak) IBOutlet UIButton *cancelButton;
 @property (nonatomic) BOOL logining;
 
 - (IBAction)login: (id)sender;
+- (IBAction)cancel:(id)sender;
 - (void)showLogin: (BOOL)show;
 - (void)haveLogined;
 - (IBAction)hideKeyboard: (id)sender;

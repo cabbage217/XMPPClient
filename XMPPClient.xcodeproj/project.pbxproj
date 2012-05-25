@@ -13,6 +13,7 @@
 		8B86272C156FD65D0037D52A /* rosterOffline.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862726156FD65D0037D52A /* rosterOffline.png */; };
 		8B86272D156FD65D0037D52A /* rosterOnline.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862727156FD65D0037D52A /* rosterOnline.png */; };
 		8B86272E156FD65D0037D52A /* self.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862728156FD65D0037D52A /* self.png */; };
+		8B86276E156FE7070037D52A /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B86276D156FE7070037D52A /* apple.png */; };
 		8BD683DC156FB98F00026222 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DB156FB98F00026222 /* UIKit.framework */; };
 		8BD683DE156FB98F00026222 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DD156FB98F00026222 /* Foundation.framework */; };
 		8BD683E0156FB98F00026222 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DF156FB98F00026222 /* CoreGraphics.framework */; };
@@ -145,6 +146,7 @@
 		8B862726156FD65D0037D52A /* rosterOffline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rosterOffline.png; sourceTree = "<group>"; };
 		8B862727156FD65D0037D52A /* rosterOnline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rosterOnline.png; sourceTree = "<group>"; };
 		8B862728156FD65D0037D52A /* self.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = self.png; sourceTree = "<group>"; };
+		8B86276D156FE7070037D52A /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
 		8BD683D7156FB98F00026222 /* XMPPClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMPPClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD683DB156FB98F00026222 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8BD683DD156FB98F00026222 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -419,6 +421,7 @@
 		8B862722156FD65D0037D52A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8B86276D156FE7070037D52A /* apple.png */,
 				8B862723156FD65D0037D52A /* bubble_default_left.png */,
 				8B862724156FD65D0037D52A /* bubble_default_right.png */,
 				8B862725156FD65D0037D52A /* login_bg.png */,
@@ -1197,6 +1200,7 @@
 				8B86272C156FD65D0037D52A /* rosterOffline.png in Resources */,
 				8B86272D156FD65D0037D52A /* rosterOnline.png in Resources */,
 				8B86272E156FD65D0037D52A /* self.png in Resources */,
+				8B86276E156FE7070037D52A /* apple.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
