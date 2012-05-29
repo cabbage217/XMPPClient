@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B0068191571D50100CC0C0B /* button_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B0068181571D50100CC0C0B /* button_login.png */; };
+		8B7AA546157384560032307E /* xmpp-client.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B7AA545157384560032307E /* xmpp-client.png */; };
 		8B862729156FD65D0037D52A /* bubble_default_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862723156FD65D0037D52A /* bubble_default_left.png */; };
 		8B86272A156FD65D0037D52A /* bubble_default_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862724156FD65D0037D52A /* bubble_default_right.png */; };
 		8B86272B156FD65D0037D52A /* login_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862725156FD65D0037D52A /* login_bg.png */; };
@@ -14,6 +16,10 @@
 		8B86272D156FD65D0037D52A /* rosterOnline.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862727156FD65D0037D52A /* rosterOnline.png */; };
 		8B86272E156FD65D0037D52A /* self.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862728156FD65D0037D52A /* self.png */; };
 		8B86276E156FE7070037D52A /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B86276D156FE7070037D52A /* apple.png */; };
+		8BBFCC7615709EF000DAB5D2 /* InvitationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCC7515709EF000DAB5D2 /* InvitationViewController.xib */; };
+		8BBFCC781570A3EC00DAB5D2 /* main_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCC771570A3EC00DAB5D2 /* main_bg.png */; };
+		8BBFCCB51570D71500DAB5D2 /* button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCCB31570D71500DAB5D2 /* button_blue.png */; };
+		8BBFCCB91570F06500DAB5D2 /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFCCB81570F06500DAB5D2 /* TableView.m */; };
 		8BD683DC156FB98F00026222 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DB156FB98F00026222 /* UIKit.framework */; };
 		8BD683DE156FB98F00026222 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DD156FB98F00026222 /* Foundation.framework */; };
 		8BD683E0156FB98F00026222 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DF156FB98F00026222 /* CoreGraphics.framework */; };
@@ -140,6 +146,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B0068181571D50100CC0C0B /* button_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_login.png; sourceTree = "<group>"; };
+		8B7AA545157384560032307E /* xmpp-client.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xmpp-client.png"; sourceTree = "<group>"; };
 		8B862723156FD65D0037D52A /* bubble_default_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_default_left.png; sourceTree = "<group>"; };
 		8B862724156FD65D0037D52A /* bubble_default_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_default_right.png; sourceTree = "<group>"; };
 		8B862725156FD65D0037D52A /* login_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_bg.png; sourceTree = "<group>"; };
@@ -147,6 +155,11 @@
 		8B862727156FD65D0037D52A /* rosterOnline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rosterOnline.png; sourceTree = "<group>"; };
 		8B862728156FD65D0037D52A /* self.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = self.png; sourceTree = "<group>"; };
 		8B86276D156FE7070037D52A /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
+		8BBFCC7515709EF000DAB5D2 /* InvitationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InvitationViewController.xib; sourceTree = "<group>"; };
+		8BBFCC771570A3EC00DAB5D2 /* main_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main_bg.png; sourceTree = "<group>"; };
+		8BBFCCB31570D71500DAB5D2 /* button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_blue.png; sourceTree = "<group>"; };
+		8BBFCCB71570F06400DAB5D2 /* TableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableView.h; sourceTree = "<group>"; };
+		8BBFCCB81570F06500DAB5D2 /* TableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableView.m; sourceTree = "<group>"; };
 		8BD683D7156FB98F00026222 /* XMPPClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMPPClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BD683DB156FB98F00026222 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8BD683DD156FB98F00026222 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -421,6 +434,9 @@
 		8B862722156FD65D0037D52A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8B0068181571D50100CC0C0B /* button_login.png */,
+				8BBFCCB31570D71500DAB5D2 /* button_blue.png */,
+				8BBFCC771570A3EC00DAB5D2 /* main_bg.png */,
 				8B86276D156FE7070037D52A /* apple.png */,
 				8B862723156FD65D0037D52A /* bubble_default_left.png */,
 				8B862724156FD65D0037D52A /* bubble_default_right.png */,
@@ -432,9 +448,32 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		8BBFCC6D15705BAA00DAB5D2 /* XMPP */ = {
+			isa = PBXGroup;
+			children = (
+				8BD683FC156FBA2700026222 /* Authentication */,
+				8BD68410156FBA2700026222 /* Categories */,
+				8BD68417156FBA2700026222 /* Core */,
+				8BD6842C156FBA2700026222 /* Extensions */,
+				8BD684CC156FBA2700026222 /* Utilities */,
+				8BD684D9156FBA2700026222 /* Vendor */,
+			);
+			name = XMPP;
+			sourceTree = "<group>";
+		};
+		8BBFCCBA1570F06E00DAB5D2 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				8BBFCCB71570F06400DAB5D2 /* TableView.h */,
+				8BBFCCB81570F06500DAB5D2 /* TableView.m */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
 		8BD683CC156FB98E00026222 = {
 			isa = PBXGroup;
 			children = (
+				8B7AA545157384560032307E /* xmpp-client.png */,
 				8BD683E1156FB98F00026222 /* XMPPClient */,
 				8BD683DA156FB98F00026222 /* Frameworks */,
 				8BD683D8156FB98F00026222 /* Products */,
@@ -471,18 +510,14 @@
 		8BD683E1156FB98F00026222 /* XMPPClient */ = {
 			isa = PBXGroup;
 			children = (
+				8BBFCC6D15705BAA00DAB5D2 /* XMPP */,
 				8BD68598156FC09C00026222 /* XMPPFramework.h */,
-				8BD68576156FBB0300026222 /* Model */,
-				8BD683FC156FBA2700026222 /* Authentication */,
-				8BD68410156FBA2700026222 /* Categories */,
-				8BD68417156FBA2700026222 /* Core */,
-				8BD6842C156FBA2700026222 /* Extensions */,
-				8BD684CC156FBA2700026222 /* Utilities */,
-				8BD684D9156FBA2700026222 /* Vendor */,
-				8B862722156FD65D0037D52A /* Images */,
-				8BD683F8156FB9A800026222 /* Views */,
 				8BD683EA156FB98F00026222 /* AppDelegate.h */,
 				8BD683EB156FB98F00026222 /* AppDelegate.m */,
+				8BD683ED156FB98F00026222 /* MainStoryboard.storyboard */,
+				8BD683F8156FB9A800026222 /* Views */,
+				8BD68576156FBB0300026222 /* Model */,
+				8B862722156FD65D0037D52A /* Images */,
 				8BD683E2156FB98F00026222 /* Supporting Files */,
 			);
 			path = XMPPClient;
@@ -502,11 +537,9 @@
 		8BD683F8156FB9A800026222 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8BD68575156FBAE300026222 /* ChatTableViewCell */,
 				8BD683FB156FB9EC00026222 /* ChatViewController */,
 				8BD683FA156FB9DC00026222 /* RosterTableController */,
 				8BD683F9156FB9CB00026222 /* LoginViewController */,
-				8BD683ED156FB98F00026222 /* MainStoryboard.storyboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -525,6 +558,7 @@
 			children = (
 				8BD68569156FBAAF00026222 /* RosterTableViewController.h */,
 				8BD6856A156FBAAF00026222 /* RosterTableViewController.m */,
+				8BBFCCBA1570F06E00DAB5D2 /* TableView */,
 				8BD68577156FBBAF00026222 /* InvitationViewController */,
 			);
 			name = RosterTableController;
@@ -535,6 +569,7 @@
 			children = (
 				8BD68566156FBA9F00026222 /* ChatViewController.h */,
 				8BD68567156FBA9F00026222 /* ChatViewController.m */,
+				8BD68575156FBAE300026222 /* ChatTableViewCell */,
 			);
 			name = ChatViewController;
 			sourceTree = "<group>";
@@ -652,7 +687,6 @@
 			children = (
 				8BD6842D156FBA2700026222 /* BandwidthMonitor */,
 				8BD68430156FBA2700026222 /* CoreDataStorage */,
-				8BD68434156FBA2700026222 /* MojoDatabase */,
 				8BD6843B156FBA2700026222 /* Reconnect */,
 				8BD6843E156FBA2700026222 /* Roster */,
 				8BD68456156FBA2700026222 /* XEP-0009 */,
@@ -702,7 +736,8 @@
 				8BD68439156FBA2700026222 /* MojoModel.h */,
 				8BD6843A156FBA2700026222 /* MojoModel.m */,
 			);
-			path = MojoDatabase;
+			name = MojoDatabase;
+			path = Extensions/MojoDatabase;
 			sourceTree = "<group>";
 		};
 		8BD6843B156FBA2700026222 /* Reconnect */ = {
@@ -1114,6 +1149,7 @@
 		8BD68576156FBB0300026222 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8BD68434156FBA2700026222 /* MojoDatabase */,
 				8BD6856F156FBAE000026222 /* ChatMessage.h */,
 				8BD68570156FBAE000026222 /* ChatMessage.m */,
 			);
@@ -1123,6 +1159,7 @@
 		8BD68577156FBBAF00026222 /* InvitationViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8BBFCC7515709EF000DAB5D2 /* InvitationViewController.xib */,
 				8BD68578156FBBC200026222 /* InvitationViewController.h */,
 				8BD68579156FBBC200026222 /* InvitationViewController.m */,
 			);
@@ -1201,6 +1238,11 @@
 				8B86272D156FD65D0037D52A /* rosterOnline.png in Resources */,
 				8B86272E156FD65D0037D52A /* self.png in Resources */,
 				8B86276E156FE7070037D52A /* apple.png in Resources */,
+				8BBFCC7615709EF000DAB5D2 /* InvitationViewController.xib in Resources */,
+				8BBFCC781570A3EC00DAB5D2 /* main_bg.png in Resources */,
+				8BBFCCB51570D71500DAB5D2 /* button_blue.png in Resources */,
+				8B0068191571D50100CC0C0B /* button_login.png in Resources */,
+				8B7AA546157384560032307E /* xmpp-client.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,6 +1359,7 @@
 				8BD68573156FBAE000026222 /* ChatMessage.m in Sources */,
 				8BD68574156FBAE000026222 /* ChatTableViewCell.m in Sources */,
 				8BD6857A156FBBC200026222 /* InvitationViewController.m in Sources */,
+				8BBFCCB91570F06500DAB5D2 /* TableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

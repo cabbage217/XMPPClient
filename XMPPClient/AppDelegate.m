@@ -27,6 +27,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @interface AppDelegate()
 
+@property (nonatomic) BOOL isLogining;
+
 - (void)setupStream;
 - (void)teardownStream;
 
@@ -37,6 +39,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation AppDelegate
 
+@synthesize isLogining = _isLogining;
 @synthesize xmppStream = _xmppStream;
 @synthesize xmppReconnect = _xmppReconnect;
 @synthesize xmppRoster = _xmppRoster;
@@ -49,11 +52,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 @synthesize database = _database;
 @synthesize password = _password;
 @synthesize isXmppConnected = _isXmppConnected;
-@synthesize navigationController = _navigationController;
 @synthesize loginViewController = _loginViewController;
+@synthesize rosterTableViewController = _rosterTableViewController;
 @synthesize isLogined = _isLogined;
 @synthesize allowSSLHostNameMismatch = _allowSSLHostNameMismatch;
 @synthesize allowSelfSignedCertificates = _allowSelfSignedCertificates;
+@synthesize isUserCancelLogin = _isUserCancelLogin;
 
 @synthesize window = _window;
 
@@ -73,14 +77,14 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [[self database] createMyTable];
     }
     
+    _loginViewController = nil;
+    _rosterTableViewController = nil;
+    _isLogining = NO;
+    _isLogined = NO;
+    _isUserCancelLogin = NO;
+    
     // Setup the XMPP stream
 	[self setupStream];
-    
-	// Setup the view controllers
-//	[_window setRootViewController: _navigationController];
-//	[_window makeKeyAndVisible];
-	
-//	self.loginViewController = [[_navigationController viewControllers ] objectAtIndex: 0];
     
 	return YES;
 }
@@ -195,29 +199,31 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	_xmppvCardAvatarModule = nil;
 	_xmppCapabilities = nil;
 	_xmppCapabilitiesStorage = nil;
-    _isLogined = false;
+    _loginViewController = nil;
+    _rosterTableViewController = nil;
+    _isLogining = NO;
+    _isLogined = NO;
 }
 
 - (void)goOnline
 {
 	XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
-    
-    _isLogined = true;
-    
-    RosterTableViewController *rootViewController = [[RosterTableViewController alloc] init]; 
-    [_navigationController pushViewController: rootViewController animated: YES];
-    
-    [self.loginViewController showLogin: YES];
-	
 	[[self xmppStream] sendElement:presence];
+    
+    _isLogining = NO;
+    _isLogined = YES;
+    [_loginViewController showLogin: YES];
+    
+    [_loginViewController performSegueWithIdentifier: @"rosterListSegue" sender: _loginViewController];
 }
 
 - (void)goOffline
 {
 	XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
 	
-	[[self xmppStream] sendElement:presence];
-    _isLogined = false;
+	[[self xmppStream] sendElement: presence];
+    _isLogining = NO;
+    _isLogined = NO;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,8 +236,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 		return YES;
 	}
     
-	NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
-	NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
+	NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey: kXMPPmyJID];
+	NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey: kXMPPmyPassword];
     
 	//
 	// If you don't want to use the Settings view to set the JID, 
@@ -241,9 +247,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
 	[_xmppStream setMyJID:[XMPPJID jidWithString:myJID]];
 	_password = myPassword;
+    _isLogining = YES;
     
 	NSError *error = nil;
-	if (![_xmppStream connect:&error])
+	if (![_xmppStream connect: &error])
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error connecting" 
 		                                                    message:@"See console for error details." 
@@ -262,8 +269,17 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)disconnect
 {
-	[self goOffline];
-	[_xmppStream disconnect];
+    if (_isLogined)
+	{
+        [self goOffline];
+        [_xmppStream disconnect];
+    }
+    else
+        if (_isLogining)
+        {
+            [_xmppStream disconnect];
+            _isLogining = NO;
+        }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -373,8 +389,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
                                               otherButtonTitles:nil];
     [alertView show];
     
-    [self.loginViewController showLogin: YES];
-    
+    _isLogining = NO;
+    [_loginViewController showLogin: YES];
 }
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
@@ -395,15 +411,21 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 		                                               managedObjectContext:[self managedObjectContext_roster]];
 		
 		NSString *body = [[message elementForName:@"body"] stringValue];
-		NSString *displayName = [user displayName];
+		NSString *jidStr = [user jidStr];
         
         // save into database
         ChatMessage *msg = [[ChatMessage alloc] init];
         msg.direction = 0;
-        msg.rosterDisplayName = displayName;
+        msg.receiver = _xmppStream.myJID.bare;
+        msg.sender = jidStr;
         msg.content = body;
         msg.time = [[NSDate date] timeIntervalSince1970];
         [msg save];
+        
+        if (_rosterTableViewController)
+        {
+            [_rosterTableViewController newMsgCome];
+        }
 	}
 }
 
@@ -420,17 +442,20 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+    if (_isUserCancelLogin)
+    {
+        _isUserCancelLogin = NO;
+        return;
+    }
     
     if (!_isXmppConnected)
     {
         DDLogError(@"Unable to connect to server. Check xmppStream.hostName");
-        [self.loginViewController showLogin: YES];
+        _isLogining = NO;
+        [_loginViewController showLogin: YES];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Login failed, Unable to connect to server." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertView show];
     }
-    
-    //    [loginViewController showLogin: YES];
-//    [_xmppStream connect: nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

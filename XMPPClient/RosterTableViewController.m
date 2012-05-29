@@ -1,7 +1,10 @@
+#import <QuartzCore/QuartzCore.h>
+
 #import "RosterTableViewController.h"
 #import "AppDelegate.h"
 #import "ChatViewController.h"
 #import "InvitationViewController.h"
+#import "TableView.h"
 
 #import "XMPPFramework.h"
 #import "DDLog.h"
@@ -13,20 +16,30 @@
   static const int ddLogLevel = LOG_LEVEL_INFO;
 #endif
 
-@interface RosterTableViewController()
+@interface RosterTableViewController() <UIAlertViewDelegate, TableViewProtocol, UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) UIPopoverController * invitationPop;
-@property (nonatomic, strong) UIBarButtonItem *addRosterButton;
+@property (nonatomic, strong) ChatViewController *currentChatViewController;
+@property (nonatomic) BOOL isChatting;
+@property (strong) NSString *currentDelete;
+@property (strong, nonatomic) NSString *currentChatWith;
 
 - (void)logOut;
-- (void)manageRoster;
 
 @end
 
 @implementation RosterTableViewController
 
+@synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize invitationPop = _invitationPop;
 @synthesize addRosterButton = _addRosterButton;
+@synthesize tableView = _tableView;
+@synthesize popoverView = _popoverView;
+@synthesize currentChatWith = _currentChatWith;
+@synthesize currentChatViewController = _currentChatViewController;
+@synthesize isChatting = _isChatting;
+@synthesize currentDelete = _currentDelete;
+@synthesize isEditting = _isEditing;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Accessors
@@ -62,52 +75,106 @@
 	{
 		titleLabel.text = @"No JID";
 	}
-	
 	[titleLabel sizeToFit];
-    
 	self.navigationItem.titleView = titleLabel;
     
-    // left bar button
-    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithTitle: @"Logout" style: UIBarButtonItemStyleBordered target: self action: @selector(logOut)];
-    [[self navigationItem] setLeftBarButtonItem: leftBarButton];
+    [self appDelegate].rosterTableViewController = self;
     
-    // right bar button
-    _addRosterButton = [[UIBarButtonItem alloc] initWithTitle: @"Manage" style: UIBarButtonItemStyleBordered target: self action: @selector(manageRoster)];
-    [[self navigationItem] setRightBarButtonItem: _addRosterButton];
+    _tableView.layer.cornerRadius = 5;
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.parent = self;
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget: _tableView action: @selector(enterEditing:)];
+    
+    [_tableView addGestureRecognizer: longPressGestureRecognizer];
+    
+    _fetchedResultsController = nil;
+    _invitationPop = nil;
+    _currentChatWith = nil;
+    _currentChatViewController = nil;
+    _isChatting = NO;
+    _isEditing = NO;
+    _currentDelete = nil;
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    _fetchedResultsController = nil;
+    _addRosterButton = nil;
+    _tableView = nil;
+    _popoverView = nil;
+    _invitationPop = nil;
+    _currentChatWith = nil;
+    _currentChatViewController = nil;
+    _isChatting = NO;
+    _isEditing = NO;
+    _currentDelete = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+	[super viewWillAppear: animated];
+    _isChatting = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewWillDisappear:animated];
+    if (!_isChatting)
+    {
+        [self logOut];
+        [super viewWillDisappear: animated];
+    }
+    else
+    {
+        if (_tableView.isEditing)
+        {
+            [_tableView setEditing: NO animated: YES];
+        }
+    }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark Actions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (IBAction)addRoster: (id)sender
+{   
+    if (_isEditing)
+    {
+        [_tableView setEditing: NO animated: YES];
+        _isEditing = NO;
+        self.navigationItem.rightBarButtonItem.title = @"Add";
+        return;
+    }
+    
+    InvitationViewController *invitationViewController = [[InvitationViewController alloc] initWithNibName: @"InvitationViewController" bundle:nil];
+    _invitationPop = [[UIPopoverController alloc] initWithContentViewController: invitationViewController];
+    _invitationPop.delegate = self;
+    _invitationPop.popoverContentSize = invitationViewController.view.frame.size;
+
+    [_invitationPop presentPopoverFromRect: CGRectMake(_popoverView.frame.origin.x + _popoverView.frame.size.width - 50, 0, 40, 1) inView: self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated: YES];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark private menthods
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)logOut
 {
     [[self appDelegate] disconnect];
-	[[[self appDelegate] xmppvCardTempModule] removeDelegate:self];
-    
-    // back to login view
-    [[[self appDelegate] navigationController] popViewControllerAnimated: YES];
+	[[[self appDelegate] xmppvCardTempModule] removeDelegate: self];
 }
 
-- (void)manageRoster
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark public menthods
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)newMsgCome
 {
-    if (nil == _invitationPop)
-    {
-        InvitationViewController *invitationViewController = [[InvitationViewController alloc]initWithNibName:@"InvitationViewController" bundle:nil];
-        //monthPickerViewcontroller.delegate = self;
-        _invitationPop = [[UIPopoverController alloc] initWithContentViewController:invitationViewController];
-        _invitationPop.popoverContentSize = invitationViewController.view.frame.size;
-    }
-    if (_invitationPop.popoverVisible)
-        [_invitationPop dismissPopoverAnimated:YES];
-    else
-        [_invitationPop presentPopoverFromRect: CGRectMake(4000, 0, 60, 0) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [_currentChatViewController readFromDatabase];
+    [_currentChatViewController.chatTableView reloadData];
+    [_currentChatViewController chatTableScrollToBottom];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,44 +183,64 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
-	if (fetchedResultsController == nil)
+	if (_fetchedResultsController == nil)
 	{
 		NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_roster];
 		
 		NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
-		                                          inManagedObjectContext:moc];
+		                                          inManagedObjectContext: moc];
 		
 		NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
 		NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
 		
-		NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1, sd2, nil];
+		NSArray *sortDescriptors = [NSArray arrayWithObjects: sd1, sd2, nil];
 		
 		NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 		[fetchRequest setEntity:entity];
 		[fetchRequest setSortDescriptors:sortDescriptors];
 		[fetchRequest setFetchBatchSize:10];
 		
-		fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+		_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
 		                                                               managedObjectContext:moc
 		                                                                 sectionNameKeyPath:@"sectionNum"
 		                                                                          cacheName:nil];
-		[fetchedResultsController setDelegate:self];
+		[_fetchedResultsController setDelegate:self];
 		
 		
 		NSError *error = nil;
-		if (![fetchedResultsController performFetch:&error])
+		if (![_fetchedResultsController performFetch:&error])
 		{
 			DDLogError(@"Error performing fetch: %@", error);
 		}
 	
 	}
 	
-	return fetchedResultsController;
+	return _fetchedResultsController;
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	[[self tableView] reloadData];
+	[_tableView reloadData];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark InvitationViewDelegate
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)confirm
+{
+    if (_invitationPop)
+        [_invitationPop dismissPopoverAnimated: YES];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark UIPopoverControllerDelegate
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    if (_invitationPop)
+        _invitationPop = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +328,10 @@
 	
 	XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
 	
-	cell.textLabel.text = user.displayName;
+    if ([user.jidStr isEqualToString: [[[[self appDelegate] xmppStream] myJID] bare]])
+        cell.textLabel.text = [NSString stringWithFormat: @"Self (%@)", user.jidStr];
+	else
+        cell.textLabel.text = [NSString stringWithFormat: @"%@ (%@)", user.nickname, user.jidStr];
 	[self configurePhotoForCell:cell user:user];
 	
 	return cell;
@@ -250,11 +340,93 @@
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath
 {
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    _currentChatWith = user.jidStr;
+    _isChatting = YES;
+    [_tableView setEditing: NO animated: NO];
+    [self performSegueWithIdentifier: @"chatSegue" sender: self];
+}
+
+- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _isEditing = YES;
+    self.navigationItem.rightBarButtonItem.title = @"Done";
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    if ([user.jidStr isEqualToString: [[[[self appDelegate] xmppStream] myJID] bare]])
+        return NO;
+    else 
+        return YES;
+}
+
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return UITableViewCellEditingStyleDelete;
+//}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Delete";
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        _currentDelete = user.jidStr;
+        UIAlertView * avlterView;
+        avlterView = [[UIAlertView alloc] initWithTitle: @"Delete Roster"
+                                                message: [NSString stringWithFormat: @"Confirm to remove the roster\n  %@?\n", user.jidStr]
+                                            delegate: self 
+                                   cancelButtonTitle: @"Cancel"
+                                   otherButtonTitles: @"Confirm", nil];
+        [avlterView show];
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark TableViewProtocol
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)beginEditing
+{
+    _isEditing = YES;
+    self.navigationItem.rightBarButtonItem.title = @"Done";
+    [_tableView setEditing: YES animated: YES];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark UIAlertViewDelegate
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==alertView.firstOtherButtonIndex)
+    {
+        [[[self appDelegate] xmppRoster ]removeUser: [XMPPJID jidWithString: _currentDelete]];
+    }
     
-    ChatViewController *chatView = [[ChatViewController alloc] init];
-    chatView.appDelegate = [self appDelegate];
-    chatView.rosterJid = user.jidStr;
-    [[[self appDelegate] navigationController] pushViewController: chatView animated: YES];
+    [_tableView setEditing: NO animated: YES];
+    _isEditing = NO;
+    self.navigationItem.rightBarButtonItem.title = @"Add";
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark prepareForSegue
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString: @"chatSegue"])
+    {
+        ChatViewController *chatViewController = (ChatViewController *)segue.destinationViewController;
+        chatViewController.appDelegate = [self appDelegate];
+        chatViewController.rosterJid = _currentChatWith;
+        _currentChatViewController = chatViewController;
+    }
 }
 
 @end

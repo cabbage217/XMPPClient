@@ -19,6 +19,10 @@ extern NSString *const kXMPPmyPassword;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *indicatorView;
 @property (nonatomic, weak) IBOutlet UIButton *loginButton;
 @property (nonatomic, weak) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UILabel *jidLabel;
+@property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
+@property (weak, nonatomic) IBOutlet UILabel *remberPwdLabel;
+
 @property (nonatomic) BOOL logining;
 
 - (IBAction)login: (id)sender;

@@ -9,16 +9,23 @@
 #import <UIKit/UIKit.h>
 
 @class AppDelegate;
+@class TableView;
 
-@interface ChatViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface ChatViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
 
 @property (strong) AppDelegate *appDelegate;
-@property (weak) IBOutlet UITextView *textView;
-@property (weak) IBOutlet UITableView *chatTableView;
 @property (strong) NSString *rosterJid;
-@property (strong) NSMutableArray *allRecord;
+
+@property (weak) IBOutlet UITextView *textView;
+@property (weak) IBOutlet TableView *chatTableView;
+@property (weak, nonatomic) IBOutlet UIView *inputView;
+@property (weak, nonatomic) IBOutlet UIView *theTableView;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
 
 - (void)readFromDatabase;
+- (void) chatTableScrollToBottom;
+
 - (IBAction)sendButtonClicked: (id)sender;
 - (IBAction)clearButtonClicked: (id)sender;
 

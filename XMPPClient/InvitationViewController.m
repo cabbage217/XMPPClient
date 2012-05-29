@@ -22,6 +22,7 @@
 @synthesize userNameEdit = _userNameEdit;
 @synthesize nickNameEdit = _nickNameEdit;
 @synthesize appDelegate = _appDelegate;
+@synthesize delegate = _delegate;
 
 - (void)viewDidLoad
 {
@@ -62,9 +63,13 @@
     
     [_appDelegate.xmppRoster addUser: [XMPPJID jidWithString: _userNameEdit.text] withNickname: _nickNameEdit.text];
     
-    _addButton.enabled = NO;
     _userNameEdit.text = @"";
     _nickNameEdit.text = @"";
+    
+    if ([_delegate respondsToSelector: @selector(confirm)])
+    {
+        [_delegate confirm];
+    }
 }
 
 @end

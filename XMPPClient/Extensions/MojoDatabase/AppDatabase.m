@@ -45,7 +45,7 @@ NSString *const kDatabaseName = @"MojoDatabase.sqlite3";
 
 - (void)createMyTable
 {
-    [self executeSql: @"create table ChatMessage (primaryKey INTEGER primary key autoincrement, direction INTEGER, rosterDisplayName TEXT, content TEXT, time DECIMAL);"];
+    [self executeSql: @"create table ChatMessage (primaryKey INTEGER primary key autoincrement, direction INTEGER, sender TEXT, receiver TEXT, content TEXT, time DECIMAL);"];
 }
 
 - (BOOL)checkTableWithName:(NSString *)tableName

@@ -11,7 +11,8 @@
 @implementation ChatMessage
 
 @synthesize direction;
-@synthesize rosterDisplayName;
+@synthesize sender;
+@synthesize receiver;
 @synthesize content;
 @synthesize time;
 

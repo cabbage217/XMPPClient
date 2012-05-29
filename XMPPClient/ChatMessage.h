@@ -13,8 +13,9 @@
 @interface ChatMessage : MojoModel
 
 @property NSUInteger direction;   // 0: come from other, 1: send by self
-@property (strong)NSString *rosterDisplayName;
-@property (strong)NSString *content;
-@property (nonatomic)NSTimeInterval time;
+@property (strong) NSString *sender;
+@property (strong) NSString *receiver;
+@property (strong) NSString *content;
+@property (nonatomic) NSTimeInterval time;
 
 @end

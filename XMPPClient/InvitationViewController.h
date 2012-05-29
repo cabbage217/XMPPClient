@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol InvitationViewDelegate <NSObject>
+
+@required
+- (void) confirm;
+
+@end
+
 @interface InvitationViewController : UIViewController
+
+@property (weak) id<InvitationViewDelegate> delegate;
+
 @property (weak) IBOutlet UILabel *informLabel;
 @property (weak) IBOutlet UIButton *addButton;
 @property (weak) IBOutlet UITextField *userNameEdit;

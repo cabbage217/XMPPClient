@@ -1,9 +1,6 @@
 //
-//  ChatTableViewCell.m
-//  Drsoon
-//
-//  Created by gump on 11-10-25.
-//  Copyright (c) 2011年 __MyCompanyName__. All rights reserved.
+//  ChatTableViewCell.h
+//  XMPPClient
 //
 
 #import "ChatTableViewCell.h"
@@ -80,8 +77,6 @@ static const CGFloat bubbleHeight = 24;
 
     // Configure the view for the selected state
 }
-
-
 
 - (void)setup:(Message *)message withWidth:(CGFloat)cellWidth
 {
@@ -188,7 +183,7 @@ static const CGFloat bubbleHeight = 24;
 {
     if (!msg.from)
     {
-        *name = NSLocalizedString(@"Me", @"");
+        *name = @"Me";
     }
     else
     {

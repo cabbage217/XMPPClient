@@ -11,6 +11,7 @@
 #import "XMPPFramework.h"
 
 @class LoginViewController;
+@class RosterTableViewController;
 @class ChatViewController;
 @class AppDatabase;
 
@@ -32,9 +33,10 @@
 @property (nonatomic, strong) AppDatabase *database;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic) BOOL isXmppConnected;
+@property (nonatomic) BOOL isUserCancelLogin;
 
 @property (nonatomic, strong) LoginViewController *loginViewController;
-@property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
+@property (strong, nonatomic) RosterTableViewController *rosterTableViewController;
 @property (readonly) BOOL isLogined;
 
 - (NSManagedObjectContext *)managedObjectContext_roster;

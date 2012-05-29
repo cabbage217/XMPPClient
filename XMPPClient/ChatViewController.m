@@ -12,43 +12,39 @@
 #import "AppDelegate.h"
 #import "ChatMessage.h"
 #import "ChatTableViewCell.h"
+#import "TableView.h"
 
 #import "XMPP.h"
 
-@interface ChatViewController()
+@interface ChatViewController() <TableViewProtocol>
 
-- (void) chatTableScrollToBottom;
+@property (strong) NSArray *allRecord;
+@property (nonatomic) CGRect theTableViewOriFrame;
+@property (nonatomic) CGRect inputViewOriFrame;
+
+- (void)keyboardWillShow:(NSNotification *)notification;
+- (void)keyboardWillHide:(NSNotification *)notification;
 
 @end
 
 @implementation ChatViewController
 
 @synthesize appDelegate = appDelegate_;
-@synthesize textView;
-@synthesize chatTableView;
+@synthesize textView = _textView;
+@synthesize chatTableView = _chatTableView;
+@synthesize inputView = _inputView;
+@synthesize theTableView = _theTableView;
+@synthesize sendButton = _sendButton;
+@synthesize clearButton = _clearButton;
 @synthesize rosterJid = rosterJid_;
 @synthesize allRecord = allRecode_;
+@synthesize theTableViewOriFrame = _theTableViewOriFrame;
+@synthesize inputViewOriFrame = _inputViewOriFrame;
 
-- (id)init
-{
-    self = [super initWithNibName:nil bundle:nil];
-    if (self)
-    {
-        
-    }
-    
-    return self;
-}
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark ChatViewController lifecycle
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)didReceiveMemoryWarning
 {
@@ -63,8 +59,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    [[self view] setBackgroundColor: [UIColor groupTableViewBackgroundColor]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     // set title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 400, 44)];
@@ -79,37 +76,59 @@
     [titleLabel sizeToFit];
     self.navigationItem.titleView = titleLabel;
     
-    textView.layer.borderWidth = 1;
-    textView.layer.cornerRadius = 5;
-    
-    [self.chatTableView setDelegate: self];
-    [self.chatTableView setDataSource: self];
+    _textView.layer.borderWidth = 1;
+    _textView.layer.cornerRadius = 5;
+
+    _chatTableView.delegate = self;
+    _chatTableView.dataSource = self;
+    _chatTableView.parent = self;
+    _textView.delegate = self;
     
     // read chat data from database
     [self readFromDatabase];
+    
+    UIColor *backgroundImage = [UIColor colorWithPatternImage: [UIImage imageNamed: @"main_bg.png"]];
+    self.view.backgroundColor = backgroundImage;
+    _chatTableView.layer.cornerRadius = 5;
+    _textView.layer.cornerRadius = 5;
+}
+
+- (void)viewDidUnload
+{
+    [self setInputView:nil];
+    [self setTheTableView:nil];
+    [self setSendButton:nil];
+    [self setClearButton:nil];
+    [super viewDidUnload];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    _textView = nil;
+    _chatTableView = nil;
+    allRecode_ = nil;
+    rosterJid_ = nil;
+    appDelegate_ = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self chatTableScrollToBottom];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    _inputViewOriFrame = _inputView.frame;
+    _theTableViewOriFrame = _theTableView.frame;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-	return YES;
+	return UIInterfaceOrientationPortrait == interfaceOrientation;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+#pragma -mark public menthods
+///////////////////////////////////////////////////////////////////////////////////////////
 - (void)readFromDatabase
 {
-    self.allRecord = [[NSMutableArray alloc] initWithArray: [ChatMessage findByColumn: @"rosterDisplayName" value: [self rosterJid]]];
+    self.allRecord = [[NSArray alloc] initWithArray: [ChatMessage findWithSqlWithParameters: [NSString stringWithFormat: @"SELECT * FROM ChatMessage WHERE (sender IN (?, ?)) AND (receiver IN (?, ?))"], appDelegate_.xmppStream.myJID.bare, rosterJid_, appDelegate_.xmppStream.myJID.bare, rosterJid_, nil]];
 }
 
 - (void)chatTableScrollToBottom
@@ -126,6 +145,11 @@
 
 - (IBAction)sendButtonClicked: (id)sender
 {
+    if ([_textView.text isEqualToString: @""])
+    {
+        return;
+    }
+    
     NSXMLElement *body = [NSXMLElement elementWithName: @"body"];
     [body setStringValue: self.textView.text];
     
@@ -139,7 +163,8 @@
     // save into database
     ChatMessage *msg = [[ChatMessage alloc] init];
     msg.direction = 1;
-    msg.rosterDisplayName = self.rosterJid;
+    msg.sender =  appDelegate_.xmppStream.myJID.bare;
+    msg.receiver = self.rosterJid;
     msg.content = self.textView.text;
     msg.time = [[NSDate date] timeIntervalSince1970];
     [msg save];
@@ -153,7 +178,7 @@
 
 - (IBAction)clearButtonClicked: (id)sender
 {
-    self.textView.text = @"";
+    _textView.text = @"";
 }
 
 /////////////////////////////////////////////////////////
@@ -184,47 +209,152 @@
     // Configure the cell...
     ChatMessage *chatMessage= [self.allRecord objectAtIndex: indexPath.row];
     Message *msg = [[Message alloc] init];
-    msg.peer = chatMessage.rosterDisplayName;
+    
     msg.content = chatMessage.content;
     msg.time = [NSDate dateWithTimeIntervalSince1970: chatMessage.time];
     msg.isNew = true;
-    if (1 == chatMessage.direction)
+    if ([chatMessage.sender isEqualToString: appDelegate_.xmppStream.myJID.bare])
     {
         msg.from = false;
+        msg.peer = chatMessage.receiver;
     }
     else
     {
         msg.from = true;
+        msg.peer = chatMessage.sender;
     }
     [cell setup:msg withWidth:tableView.frame.size.width];
     
     return cell;
 }
 
-/////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Table view delegate
-/////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat height = 44;
     ChatMessage *chatMessage= [self.allRecord objectAtIndex: indexPath.row];
     Message *msg = [[Message alloc] init];
-    msg.peer = chatMessage.rosterDisplayName;
     msg.content = chatMessage.content;
     msg.time = [NSDate dateWithTimeIntervalSince1970: chatMessage.time];
-    if (1 == chatMessage.direction)
+    if ([chatMessage.sender isEqualToString: appDelegate_.xmppStream.myJID.bare])
     {
-        msg.from = true;
+        msg.from = false;
+        msg.peer = chatMessage.receiver;
     }
     else
     {
-        msg.from = false;
+        msg.from = true;
+        msg.peer = chatMessage.sender;
     }
     
     height = [ChatTableViewCell heightOfCellWithContent:msg withWidth:tableView.frame.size.width];
     
     return height;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - TableViewProtocol
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void) tableViewTouched
+{
+    [_textView resignFirstResponder];
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITextView delegate
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if (![textView.text isEqualToString: @""])
+    {
+        _sendButton.enabled = YES;
+        _clearButton.enabled = YES;
+        _sendButton.alpha = 1;
+        _clearButton.alpha = 1;
+    }
+    else
+    {
+        _sendButton.enabled = NO;
+        _clearButton.enabled = NO;
+        _sendButton.alpha = 0.5;
+        _clearButton.alpha = 0.5;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - keyboard events
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    if (nil == self.view.superview)
+        return;
+    /*
+     Reduce the size of the text view so that it's not obscured by the keyboard.
+     Animate the resize so that it's in sync with the appearance of the keyboard.
+     */
+    
+    NSDictionary *userInfo = [notification userInfo];
+    
+    // Get the origin of the keyboard when it's displayed.
+    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
+    CGRect keyboardRect = [aValue CGRectValue];
+    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
+    
+    CGFloat keyboardHeight = keyboardRect.size.height;
+    
+    // Get the duration of the animation.
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue: &animationDuration];
+    
+    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration: animationDuration];
+    
+    if ([_textView isFirstResponder])
+    {
+        _theTableView.frame = CGRectMake(_theTableViewOriFrame.origin.x, _theTableViewOriFrame.origin.y, _theTableViewOriFrame.size.width, _theTableViewOriFrame.size.height - keyboardHeight);
+        _inputView.frame = CGRectMake(_inputViewOriFrame.origin.x, _inputViewOriFrame.origin.y-keyboardHeight, _inputViewOriFrame.size.width,_inputViewOriFrame.size.height);
+    }
+    
+    [UIView commitAnimations];
+    
+    [self chatTableScrollToBottom];
+}
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    if (nil == self.view.superview)
+        return;
+    NSDictionary* userInfo = [notification userInfo];
+    
+    /*
+     Restore the size of the text view (fill self's view).
+     Animate the resize so that it's in sync with the disappearance of the keyboard.
+     */
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:animationDuration];
+    
+    if ([_textView isFirstResponder])
+    {
+        _theTableView.frame = _theTableViewOriFrame;
+        _inputView.frame = _inputViewOriFrame; 
+    }
+    
+    [UIView commitAnimations];
+    
+    [self chatTableScrollToBottom];
 }
 
 @end
