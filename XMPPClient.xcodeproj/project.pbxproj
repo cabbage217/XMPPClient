@@ -459,6 +459,7 @@
 		8BBFCC6D15705BAA00DAB5D2 /* XMPP */ = {
 			isa = PBXGroup;
 			children = (
+				8BD68598156FC09C00026222 /* XMPPFramework.h */,
 				8BD683FC156FBA2700026222 /* Authentication */,
 				8BD68410156FBA2700026222 /* Categories */,
 				8BD68417156FBA2700026222 /* Core */,
@@ -517,12 +518,11 @@
 		8BD683E1156FB98F00026222 /* XMPPClient */ = {
 			isa = PBXGroup;
 			children = (
-				8BD68598156FC09C00026222 /* XMPPFramework.h */,
 				8BD683EA156FB98F00026222 /* AppDelegate.h */,
 				8B2908161575B7EE0083305D /* AppDelegate.m */,
+				8B7AA545157384560032307E /* xmpp-client.png */,
 				8BD683ED156FB98F00026222 /* MainStoryboard.storyboard */,
 				8B2908581575BB3F0083305D /* Localizable.strings */,
-				8B7AA545157384560032307E /* xmpp-client.png */,
 				8BD683F8156FB9A800026222 /* Views */,
 				8B862722156FD65D0037D52A /* Images */,
 				8BD68576156FBB0300026222 /* Model */,

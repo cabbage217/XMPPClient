@@ -331,7 +331,7 @@
     if ([user.jidStr isEqualToString: [[[[self appDelegate] xmppStream] myJID] bare]])
         cell.textLabel.text = [NSString stringWithFormat: NSLocalizedString(@"Self (%@)", @""), user.jidStr];
 	else
-        cell.textLabel.text = [NSString stringWithFormat: @"%@ (%@)", user.nickname, user.jidStr];
+        cell.textLabel.text = [NSString stringWithFormat: @"%@ (%@)", user.displayName, user.jidStr];
 	[self configurePhotoForCell:cell user:user];
 	
 	return cell;

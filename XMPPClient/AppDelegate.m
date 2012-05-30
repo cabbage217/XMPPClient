@@ -164,7 +164,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     _xmppCapabilities.autoFetchHashedCapabilities = YES;
     _xmppCapabilities.autoFetchNonHashedCapabilities = NO;
     
-	[_xmppReconnect         activate:_xmppStream];
 	[_xmppRoster            activate:_xmppStream];
 	[_xmppvCardTempModule   activate:_xmppStream];
 	[_xmppvCardAvatarModule activate:_xmppStream];
@@ -235,6 +234,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	if (![_xmppStream isDisconnected]) {
 		return YES;
 	}
+    
+    [_xmppReconnect activate: _xmppStream];
     
 	NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey: kXMPPmyJID];
 	NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey: kXMPPmyPassword];
@@ -445,6 +446,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     if (_isUserCancelLogin)
     {
         _isUserCancelLogin = NO;
+        [_xmppReconnect deactivate];
         return;
     }
     
@@ -452,6 +454,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     {
         DDLogError(@"Unable to connect to server. Check xmppStream.hostName");
         _isLogining = NO;
+        _isLogined = NO;
         [_loginViewController showLogin: YES];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Login Failed", @"") message: NSLocalizedString(@"Login failed, Unable to connect to server.", @"") delegate:nil cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
         [alertView show];
