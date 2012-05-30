@@ -1,0 +1,86 @@
+/* 
+  Localizable.strings
+  XMPPClient
+
+  Created by cabbage on 5/30/12.
+  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+*/
+
+
+/* File: AppDelegate.m */
+"Error connecting" = "連接錯誤";
+
+/* File: AppDelegate.m */
+"Some errors occured when connecting to server, please re-login." = "與服務器連接出錯，請重新登錄。";
+
+/* File: AppDelegate.m */
+"OK" = "確定";
+
+/* File: AppDelegate.m */
+"Login Failed" = "登錄失敗";
+
+/* File: AppDelegate.m */
+"Login failed, wrong JID or password, please retry." = "登錄失敗，JID或密碼錯誤。";
+
+/* File: AppDelegate.m */
+"Login failed, Unable to connect to server." = "登錄失敗，未能連接服務器。";
+
+/* File: AppDelegate.m */
+"Buddy request from %@ <%@>" = "需要與 %@ <%@> 進行綁定";
+
+/* File: AppDelegate.m */
+"Buddy request from %@" = "需要與 %@ 進行綁定";
+
+/* File: AppDelegate.m */
+"Not implemented" = "未能完成";
+
+/* File: ChatViewController.m */
+"Chat with %s" = "與 %s 通信";
+
+/* File: ChatTableViewCell.m */
+"Me" = "我";
+
+/* File: RosterTableViewController.m */
+"No JID" = "沒有 JID";
+
+/* File: RosterTableViewController.m */
+"Add" = "添加";
+
+/* File: RosterTableViewController.m */
+"Online" = "在線";
+
+/* File: RosterTableViewController.m */
+"Away" = "離開";
+
+/* File: RosterTableViewController.m */
+"Offline" = "離線";
+
+/* File: RosterTableViewController.m */
+"Self (%@)" = "自己 (%@)";
+
+/* File: RosterTableViewController.m */
+"Delete" = "刪除";
+
+/* File: RosterTableViewController.m */
+"Done" = "完成";
+
+/* File: RosterTableViewController.m */
+"Delete Roster" = "刪除聯系人";
+
+/* File: RosterTableViewController.m */
+"Confirm to remove the roster\n  %@?\n" = "確定要刪除聯系人\n  %@嗎?\n";
+
+/* File: RosterTableViewController.m */
+"Confirm" = "確定";
+
+/* File: InvitationViewController.m */
+"Please input the JID of receiver" = "請輸入被邀請人的JID";
+
+/* File: InvitationViewController.m */
+"Can not add self" = "不能添加自己為聯系人";
+
+/* File: LoginViewController.m */
+"Error" = "錯誤";
+
+/* File: LoginViewController.m */
+"jid and password can not be empty" = "JID和密碼均不能為空";

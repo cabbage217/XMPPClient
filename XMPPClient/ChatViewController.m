@@ -72,7 +72,7 @@
     titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     titleLabel.textAlignment = UITextAlignmentCenter;
-    titleLabel.text = [[NSString alloc] initWithFormat: @"Chat with %s", [[self rosterJid] UTF8String]];
+    titleLabel.text = [[NSString alloc] initWithFormat: NSLocalizedString(@"Chat with %s", @""), [[self rosterJid] UTF8String]];
     [titleLabel sizeToFit];
     self.navigationItem.titleView = titleLabel;
     

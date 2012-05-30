@@ -188,11 +188,11 @@ NSString *const kRemenberPassword = @"kRemenberPassword";
 {    
     if ((0 == self.jidField.text.length) || (0 == self.passwordField.text.length))
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:@"jid and password can not be empty"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Ok"
-                                                  otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
+                                                            message: NSLocalizedString(@"JID and password can not be empty", @"")
+                                                           delegate: nil
+                                                  cancelButtonTitle: NSLocalizedString(@"OK", @"")
+                                                  otherButtonTitles: nil];
         [alertView show];
         
         return;

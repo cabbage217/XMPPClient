@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8B0068191571D50100CC0C0B /* button_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B0068181571D50100CC0C0B /* button_login.png */; };
+		8B2908021575B2EA0083305D /* InvitationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B2908041575B2EA0083305D /* InvitationViewController.xib */; };
+		8B2908151575B7EE0083305D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2908161575B7EE0083305D /* AppDelegate.m */; };
+		8B2908561575BB3F0083305D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B2908581575BB3F0083305D /* Localizable.strings */; };
 		8B7AA546157384560032307E /* xmpp-client.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B7AA545157384560032307E /* xmpp-client.png */; };
 		8B862729156FD65D0037D52A /* bubble_default_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862723156FD65D0037D52A /* bubble_default_left.png */; };
 		8B86272A156FD65D0037D52A /* bubble_default_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862724156FD65D0037D52A /* bubble_default_right.png */; };
@@ -16,7 +19,6 @@
 		8B86272D156FD65D0037D52A /* rosterOnline.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862727156FD65D0037D52A /* rosterOnline.png */; };
 		8B86272E156FD65D0037D52A /* self.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B862728156FD65D0037D52A /* self.png */; };
 		8B86276E156FE7070037D52A /* apple.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B86276D156FE7070037D52A /* apple.png */; };
-		8BBFCC7615709EF000DAB5D2 /* InvitationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCC7515709EF000DAB5D2 /* InvitationViewController.xib */; };
 		8BBFCC781570A3EC00DAB5D2 /* main_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCC771570A3EC00DAB5D2 /* main_bg.png */; };
 		8BBFCCB51570D71500DAB5D2 /* button_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCCB31570D71500DAB5D2 /* button_blue.png */; };
 		8BBFCCB91570F06500DAB5D2 /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BBFCCB81570F06500DAB5D2 /* TableView.m */; };
@@ -25,7 +27,6 @@
 		8BD683E0156FB98F00026222 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BD683DF156FB98F00026222 /* CoreGraphics.framework */; };
 		8BD683E6156FB98F00026222 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BD683E4156FB98F00026222 /* InfoPlist.strings */; };
 		8BD683E8156FB98F00026222 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD683E7156FB98F00026222 /* main.m */; };
-		8BD683EC156FB98F00026222 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD683EB156FB98F00026222 /* AppDelegate.m */; };
 		8BD683EF156FB98F00026222 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BD683ED156FB98F00026222 /* MainStoryboard.storyboard */; };
 		8BD68501156FBA2800026222 /* XMPPAnonymousAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD683FF156FBA2700026222 /* XMPPAnonymousAuthentication.m */; };
 		8BD68502156FBA2800026222 /* XMPPDeprecatedDigestAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD68402156FBA2700026222 /* XMPPDeprecatedDigestAuthentication.m */; };
@@ -147,7 +148,16 @@
 
 /* Begin PBXFileReference section */
 		8B0068181571D50100CC0C0B /* button_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_login.png; sourceTree = "<group>"; };
-		8B7AA545157384560032307E /* xmpp-client.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xmpp-client.png"; sourceTree = "<group>"; };
+		8B2908031575B2EA0083305D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InvitationViewController.xib; sourceTree = "<group>"; };
+		8B2908061575B3090083305D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InvitationViewController.xib"; sourceTree = "<group>"; };
+		8B2908071575B3110083305D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/InvitationViewController.xib"; sourceTree = "<group>"; };
+		8B2908161575B7EE0083305D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8B2908171575B86B0083305D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/MainStoryboard.storyboard"; sourceTree = "<group>"; };
+		8B2908181575B86E0083305D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hant"; path = "zh-Hant.lproj/MainStoryboard.storyboard"; sourceTree = "<group>"; };
+		8B2908571575BB3F0083305D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8B2908591575C2230083305D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		8B29085A1575C4A70083305D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		8B7AA545157384560032307E /* xmpp-client.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "xmpp-client.png"; path = "../xmpp-client.png"; sourceTree = "<group>"; };
 		8B862723156FD65D0037D52A /* bubble_default_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_default_left.png; sourceTree = "<group>"; };
 		8B862724156FD65D0037D52A /* bubble_default_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble_default_right.png; sourceTree = "<group>"; };
 		8B862725156FD65D0037D52A /* login_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_bg.png; sourceTree = "<group>"; };
@@ -155,7 +165,6 @@
 		8B862727156FD65D0037D52A /* rosterOnline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rosterOnline.png; sourceTree = "<group>"; };
 		8B862728156FD65D0037D52A /* self.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = self.png; sourceTree = "<group>"; };
 		8B86276D156FE7070037D52A /* apple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple.png; sourceTree = "<group>"; };
-		8BBFCC7515709EF000DAB5D2 /* InvitationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InvitationViewController.xib; sourceTree = "<group>"; };
 		8BBFCC771570A3EC00DAB5D2 /* main_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main_bg.png; sourceTree = "<group>"; };
 		8BBFCCB31570D71500DAB5D2 /* button_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_blue.png; sourceTree = "<group>"; };
 		8BBFCCB71570F06400DAB5D2 /* TableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableView.h; sourceTree = "<group>"; };
@@ -169,7 +178,6 @@
 		8BD683E7156FB98F00026222 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8BD683E9156FB98F00026222 /* XMPPClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XMPPClient-Prefix.pch"; sourceTree = "<group>"; };
 		8BD683EA156FB98F00026222 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		8BD683EB156FB98F00026222 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8BD683EE156FB98F00026222 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		8BD683FE156FBA2700026222 /* XMPPAnonymousAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPAnonymousAuthentication.h; sourceTree = "<group>"; };
 		8BD683FF156FBA2700026222 /* XMPPAnonymousAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPAnonymousAuthentication.m; sourceTree = "<group>"; };
@@ -473,7 +481,6 @@
 		8BD683CC156FB98E00026222 = {
 			isa = PBXGroup;
 			children = (
-				8B7AA545157384560032307E /* xmpp-client.png */,
 				8BD683E1156FB98F00026222 /* XMPPClient */,
 				8BD683DA156FB98F00026222 /* Frameworks */,
 				8BD683D8156FB98F00026222 /* Products */,
@@ -510,14 +517,16 @@
 		8BD683E1156FB98F00026222 /* XMPPClient */ = {
 			isa = PBXGroup;
 			children = (
-				8BBFCC6D15705BAA00DAB5D2 /* XMPP */,
 				8BD68598156FC09C00026222 /* XMPPFramework.h */,
 				8BD683EA156FB98F00026222 /* AppDelegate.h */,
-				8BD683EB156FB98F00026222 /* AppDelegate.m */,
+				8B2908161575B7EE0083305D /* AppDelegate.m */,
 				8BD683ED156FB98F00026222 /* MainStoryboard.storyboard */,
+				8B2908581575BB3F0083305D /* Localizable.strings */,
+				8B7AA545157384560032307E /* xmpp-client.png */,
 				8BD683F8156FB9A800026222 /* Views */,
-				8BD68576156FBB0300026222 /* Model */,
 				8B862722156FD65D0037D52A /* Images */,
+				8BD68576156FBB0300026222 /* Model */,
+				8BBFCC6D15705BAA00DAB5D2 /* XMPP */,
 				8BD683E2156FB98F00026222 /* Supporting Files */,
 			);
 			path = XMPPClient;
@@ -1159,9 +1168,9 @@
 		8BD68577156FBBAF00026222 /* InvitationViewController */ = {
 			isa = PBXGroup;
 			children = (
-				8BBFCC7515709EF000DAB5D2 /* InvitationViewController.xib */,
 				8BD68578156FBBC200026222 /* InvitationViewController.h */,
 				8BD68579156FBBC200026222 /* InvitationViewController.m */,
+				8B2908041575B2EA0083305D /* InvitationViewController.xib */,
 			);
 			name = InvitationViewController;
 			sourceTree = "<group>";
@@ -1211,6 +1220,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 8BD683CC156FB98E00026222;
 			productRefGroup = 8BD683D8156FB98F00026222 /* Products */;
@@ -1238,11 +1249,12 @@
 				8B86272D156FD65D0037D52A /* rosterOnline.png in Resources */,
 				8B86272E156FD65D0037D52A /* self.png in Resources */,
 				8B86276E156FE7070037D52A /* apple.png in Resources */,
-				8BBFCC7615709EF000DAB5D2 /* InvitationViewController.xib in Resources */,
+				8B2908021575B2EA0083305D /* InvitationViewController.xib in Resources */,
 				8BBFCC781570A3EC00DAB5D2 /* main_bg.png in Resources */,
 				8BBFCCB51570D71500DAB5D2 /* button_blue.png in Resources */,
 				8B0068191571D50100CC0C0B /* button_login.png in Resources */,
 				8B7AA546157384560032307E /* xmpp-client.png in Resources */,
+				8B2908561575BB3F0083305D /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,7 +1266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BD683E8156FB98F00026222 /* main.m in Sources */,
-				8BD683EC156FB98F00026222 /* AppDelegate.m in Sources */,
+				8B2908151575B7EE0083305D /* AppDelegate.m in Sources */,
 				8BD68501156FBA2800026222 /* XMPPAnonymousAuthentication.m in Sources */,
 				8BD68502156FBA2800026222 /* XMPPDeprecatedDigestAuthentication.m in Sources */,
 				8BD68503156FBA2800026222 /* XMPPDeprecatedPlainAuthentication.m in Sources */,
@@ -1366,6 +1378,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		8B2908041575B2EA0083305D /* InvitationViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B2908031575B2EA0083305D /* en */,
+				8B2908061575B3090083305D /* zh-Hans */,
+				8B2908071575B3110083305D /* zh-Hant */,
+			);
+			name = InvitationViewController.xib;
+			sourceTree = "<group>";
+		};
+		8B2908581575BB3F0083305D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B2908571575BB3F0083305D /* en */,
+				8B2908591575C2230083305D /* zh-Hans */,
+				8B29085A1575C4A70083305D /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		8BD683E4156FB98F00026222 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1378,6 +1410,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				8BD683EE156FB98F00026222 /* en */,
+				8B2908171575B86B0083305D /* zh-Hans */,
+				8B2908181575B86E0083305D /* zh-Hant */,
 			);
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";

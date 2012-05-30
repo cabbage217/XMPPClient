@@ -5,3 +5,79 @@
   Created by cabbage on 5/30/12.
   Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 */
+
+
+/* File: AppDelegate.m */
+"Error connecting" = "Error connecting";
+
+/* File: AppDelegate.m */
+"Some errors occured when connecting to server, please re-login." = "Some errors occured when connecting to server, please re-login.";
+
+/* File: AppDelegate.m */
+"OK" = "OK";
+
+/* File: AppDelegate.m */
+"Login Failed" = "Login Failed";
+
+/* File: AppDelegate.m */
+"Login failed, wrong JID or password, please retry." = "Login failed, wrong JID or password, please retry.";
+
+/* File: AppDelegate.m */
+"Login failed, Unable to connect to server." = "Login failed, Unable to connect to server.";
+
+/* File: AppDelegate.m */
+"Buddy request from %@ <%@>" = "Buddy request from %@ <%@>";
+
+/* File: AppDelegate.m */
+"Buddy request from %@" = "Buddy request from %@";
+
+/* File: AppDelegate.m */
+"Not implemented" = "Not implemented";
+
+/* File: ChatViewController.m */
+"Chat with %s" = "Chat with %s";
+
+/* File: ChatTableViewCell.m */
+"Me" = "Me";
+
+/* File: RosterTableViewController.m */
+"No JID" = "No JID";
+
+/* File: RosterTableViewController.m */
+"Add" = "Add";
+
+/* File: RosterTableViewController.m */
+"Online" = "Online";
+
+/* File: RosterTableViewController.m */
+"Away" = "Away";
+
+/* File: RosterTableViewController.m */
+"Offline" = "Offline";
+
+/* File: RosterTableViewController.m */
+"Self (%@)" = "Self (%@)";
+
+/* File: RosterTableViewController.m */
+"Done" = "Done";
+
+/* File: RosterTableViewController.m */
+"Delete Roster" = "Delete Roster";
+
+/* File: RosterTableViewController.m */
+"Confirm to remove the roster\n  %@?\n" = "Confirm to remove the roster\n  %@?\n";
+
+/* File: RosterTableViewController.m */
+"Confirm" = "Confirm";
+
+/* File: InvitationViewController.m */
+"Please input the JID of receiver" = "Please input the JID of receiver";
+
+/* File: InvitationViewController.m */
+"Can not add self" = "Can not add self";
+
+/* File: LoginViewController.m */
+"Error" = "Error";
+
+/* File: LoginViewController.m */
+"jid and password can not be empty" = "jid and password can not be empty";

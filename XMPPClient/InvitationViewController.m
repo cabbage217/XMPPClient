@@ -1,9 +1,9 @@
 //
 //  InvitationViewController.m
-//  DrsoonClient
+//  XMPPClient
 //
 //  Created by Jason Yuan on 12-4-25.
-//  Copyright (c) 2012年 Drsoon.com. All rights reserved.
+//  Copyright (c) 2012年 Cabbage All rights reserved.
 //
 
 #import "InvitationViewController.h"

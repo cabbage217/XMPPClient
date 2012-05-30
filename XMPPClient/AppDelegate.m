@@ -252,11 +252,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	NSError *error = nil;
 	if (![_xmppStream connect: &error])
 	{
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error connecting" 
-		                                                    message:@"See console for error details." 
-		                                                   delegate:nil 
-		                                          cancelButtonTitle:@"Ok" 
-		                                          otherButtonTitles:nil];
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error connecting", @"")
+		                                                    message: NSLocalizedString(@"Some errors occured when connecting to server, please re-login.", @"")
+		                                                   delegate: nil
+		                                          cancelButtonTitle: NSLocalizedString(@"OK", @"")
+		                                          otherButtonTitles: nil];
 		[alertView show];
         
 		DDLogError(@"Error connecting: %@", error);
@@ -382,10 +382,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" 
-                                                        message:@"Login failed, wrong JID or password, please retry." 
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Login Failed", @"")
+                                                        message:NSLocalizedString(@"Login failed, wrong JID or password, please retry.", @"")
                                                        delegate:nil 
-                                              cancelButtonTitle:@"Ok"
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"")
                                               otherButtonTitles:nil];
     [alertView show];
     
@@ -453,7 +453,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         DDLogError(@"Unable to connect to server. Check xmppStream.hostName");
         _isLogining = NO;
         [_loginViewController showLogin: YES];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Login failed, Unable to connect to server." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Login Failed", @"") message: NSLocalizedString(@"Login failed, Unable to connect to server.", @"") delegate:nil cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
         [alertView show];
     }
 }
@@ -476,11 +476,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	
 	if (![displayName isEqualToString:jidStrBare])
 	{
-		body = [NSString stringWithFormat:@"Buddy request from %@ <%@>", displayName, jidStrBare];
+		body = [NSString stringWithFormat: NSLocalizedString(@"Buddy request from %@ <%@>", @""), displayName, jidStrBare];
 	}
 	else
 	{
-		body = [NSString stringWithFormat:@"Buddy request from %@", displayName];
+		body = [NSString stringWithFormat: NSLocalizedString(@"Buddy request from %@", @""), displayName];
 	}
 	
 	
@@ -489,7 +489,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
 		                                                    message:body 
 		                                                   delegate:nil 
-		                                          cancelButtonTitle:@"Not implemented"
+		                                          cancelButtonTitle:NSLocalizedString(@"Not implemented", @"")
 		                                          otherButtonTitles:nil];
 		[alertView show];
 	} 
@@ -497,7 +497,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	{
 		// We are not active, so use a local notification instead
 		UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-		localNotification.alertAction = @"Not implemented";
+		localNotification.alertAction = NSLocalizedString(@"Not implemented", @"");
 		localNotification.alertBody = body;
 		
 		[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];

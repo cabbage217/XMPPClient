@@ -73,7 +73,7 @@
 		titleLabel.text = [[[[self appDelegate] xmppStream] myJID] bare];
 	} else
 	{
-		titleLabel.text = @"No JID";
+		titleLabel.text = NSLocalizedString(@"No JID", @"");
 	}
 	[titleLabel sizeToFit];
 	self.navigationItem.titleView = titleLabel;
@@ -144,7 +144,7 @@
     {
         [_tableView setEditing: NO animated: YES];
         _isEditing = NO;
-        self.navigationItem.rightBarButtonItem.title = @"Add";
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Add", @"");
         return;
     }
     
@@ -293,9 +293,9 @@
 		int section = [sectionInfo.name intValue];
 		switch (section)
 		{
-			case 0  : return @"Online";
-			case 1  : return @"Away";
-			default : return @"Offline";
+			case 0  : return NSLocalizedString(@"Online", @"");
+			case 1  : return NSLocalizedString(@"Away", @"");
+			default : return NSLocalizedString(@"Offline", @"");
 		}
 	}
 	
@@ -329,7 +329,7 @@
 	XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
 	
     if ([user.jidStr isEqualToString: [[[[self appDelegate] xmppStream] myJID] bare]])
-        cell.textLabel.text = [NSString stringWithFormat: @"Self (%@)", user.jidStr];
+        cell.textLabel.text = [NSString stringWithFormat: NSLocalizedString(@"Self (%@)", @""), user.jidStr];
 	else
         cell.textLabel.text = [NSString stringWithFormat: @"%@ (%@)", user.nickname, user.jidStr];
 	[self configurePhotoForCell:cell user:user];
@@ -349,7 +349,13 @@
 - (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     _isEditing = YES;
-    self.navigationItem.rightBarButtonItem.title = @"Done";
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Done", @"");
+}
+
+- (void)tableView: (UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _isEditing = NO;
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Add", @"");
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -368,7 +374,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return @"Delete";
+    return NSLocalizedString(@"Delete", @"");
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -378,11 +384,11 @@
         XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         _currentDelete = user.jidStr;
         UIAlertView * avlterView;
-        avlterView = [[UIAlertView alloc] initWithTitle: @"Delete Roster"
-                                                message: [NSString stringWithFormat: @"Confirm to remove the roster\n  %@?\n", user.jidStr]
+        avlterView = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Delete Roster", @"")
+                                                message: [NSString stringWithFormat: NSLocalizedString(@"Confirm to remove the roster\n  %@?\n", @""), user.jidStr]
                                             delegate: self 
-                                   cancelButtonTitle: @"Cancel"
-                                   otherButtonTitles: @"Confirm", nil];
+                                   cancelButtonTitle: NSLocalizedString(@"Cancel", @"")
+                                   otherButtonTitles: NSLocalizedString(@"Confirm", @""), nil];
         [avlterView show];
     }
 }
@@ -394,7 +400,7 @@
 - (void)beginEditing
 {
     _isEditing = YES;
-    self.navigationItem.rightBarButtonItem.title = @"Done";
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Done", @"");
     [_tableView setEditing: YES animated: YES];
 }
 
@@ -411,7 +417,7 @@
     
     [_tableView setEditing: NO animated: YES];
     _isEditing = NO;
-    self.navigationItem.rightBarButtonItem.title = @"Add";
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Add", @"");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

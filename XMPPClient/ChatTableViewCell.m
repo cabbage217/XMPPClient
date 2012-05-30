@@ -183,7 +183,7 @@ static const CGFloat bubbleHeight = 24;
 {
     if (!msg.from)
     {
-        *name = @"Me";
+        *name = NSLocalizedString(@"Me", @"");
     }
     else
     {
