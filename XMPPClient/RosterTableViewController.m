@@ -340,6 +340,11 @@
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath
 {
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    if ([user.jidStr isEqualToString: [[[[self appDelegate] xmppStream] myJID] bare]])
+    {
+        return;
+    }
+    
     _currentChatWith = user.jidStr;
     _isChatting = YES;
     [_tableView setEditing: NO animated: NO];
